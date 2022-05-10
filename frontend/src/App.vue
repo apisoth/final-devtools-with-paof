@@ -1,19 +1,48 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div>
+      <h1>TABLE INFORMATION STUDENT</h1>
+    </div>
+    <!-- ตาราง -->
+    <div class="table">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>StudentName</th>
+            <th>AGE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="student in students" :key= "student.student_id">
+            <th>{{student.student_id}}</th>
+            <td>{{student.student_name}}</td>
+            <td>{{student.student_age}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import axios from "axios";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  data(){
+    return{
+    students:[]
+    }
+  },
+  mounted() {
+    axios
+      .get("http://localhost:5000")
+      .then((response) => {
+        console.log(response)
+        this.students= response.data.rows
+        });
+
+  },
+};
 </script>
 
 <style>
@@ -24,5 +53,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+table{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border: solid;
 }
 </style>
